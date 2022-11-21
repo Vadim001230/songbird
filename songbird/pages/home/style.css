@@ -163,7 +163,6 @@ body {
 
 .header__logo-icon {
   display: block;
-  background: url(../../assets/icons/logo.svg) no-repeat;
   width: 40px;
   height: 40px;
   margin-right: 12px;
