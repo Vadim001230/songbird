@@ -1,5 +1,4 @@
 //video change
-
 const video = document.getElementById('video');
 function randomInteger(min, max) {
   let rand = min - 0.5 + Math.random() * (max - min + 1);

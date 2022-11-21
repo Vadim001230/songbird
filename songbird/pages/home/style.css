@@ -314,14 +314,17 @@ body {
   }
 
   .nav__item {
-    margin: 60px 0 30px 20px;
-  }
-  .nav__list-active .nav__item {
-     margin: 60px 0 30px 20px;
+    margin: 60px 0 30px 30px;
   }
 
   .nav__link {
     font-size: 20px;
+  }
+
+  #video {
+    height: 90vh;
+    min-height: 90vh;
+    transform: scale(1.4);
   }
 
 }
@@ -353,14 +356,6 @@ body {
 
   #rs-logo {
     width: 100px;
-  }
-
-}
-
-@media (max-width: 450px) {
-
-  #video {
-    transform: scale(1.3);
   }
 
 }
