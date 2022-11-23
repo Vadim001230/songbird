@@ -26,7 +26,14 @@ const descriptionPreview = document.querySelector('.description__preview'),
       cardLatin = document.querySelector('.card__latin'),
       cardText = document.querySelector('.card__text');
 
+const cardContainer = document.querySelector('.card__container'),
+      cardBtnPlay = document.querySelector('.card__btn-play-img'),
+      cardBar = document.querySelector('.card__bar'),
+      cardCurrentTimes = document.querySelector('.card__current-time'),
+      cardDurationTime = document.querySelector('.card__duration-time');
+
 //volume
+
 document.querySelector('.volume-input').oninput = audioVolume;
 function audioVolume() {
   let v = this.value;
@@ -100,6 +107,7 @@ function randomInteger(min, max) {
   return Math.round(rand);
 }
 
+
 let questionNumber = 0;
 let randomQuestionArr;
 
@@ -111,6 +119,10 @@ randomQuestion()
 function startGame() {
   questionBirdTitle.textContent = '******'
   questionBirdImg.src = 'https://birds-quiz.netlify.app/static/media/bird.06a46938.jpg';
+  if (questionNumber === 6) {
+    questionNumber = 0;
+    endGame();
+  }
   audioQuestion.src = birdsDataRu[questionNumber][randomQuestionArr].audio;
   descriptionCard.style.display = 'none';
   descriptionPreview.style.display = 'block';
@@ -131,6 +143,8 @@ function trueOrFalseAnswer(e) {
     e.target.classList.add('right')
     audioTrue.play();
     audioQuestion.pause();
+    progressBtnPlay.src = '../../assets/icons/play.svg';
+    progressBtnPlay.classList.remove('active');
     scoreCount += count;
     scoreCounter.textContent = scoreCount;
     count = 5;
@@ -181,6 +195,23 @@ function afterTrueInfo(e) {
     audioCard.src = targetData.audio;
 }
 
+function resetCardBtn() {
+  cardBtnPlay.src = '../../assets/icons/play.svg';
+  cardBtnPlay.classList.remove('active');
+  cardBar.style.width = '0';
+  audioFalse.pause();
+}
+
+function resetCard() {
+  for (let answerItem of answerItems) {
+    if (answerItem.classList.contains('wrong')) {
+      resetCardBtn();
+    }
+  }
+}
+for (let answerItem of answerItems) {
+  answerItem.addEventListener('click', resetCard);
+}
 
 for (let answerItem of answerItems) {
   answerItem.addEventListener('click', trueOrFalseAnswer);
@@ -197,6 +228,11 @@ function nextQuestion() {
     pauseAudio();
     progressBar.style.width = '0'
     pauseAudioCard();
+
+    for (let pageItem of pageItems) {
+      pageItem.classList.remove('active')
+      pageItems[questionNumber].classList.add('active')
+    }
     for (let answerItem of answerItems) {
       answerItem.addEventListener('click', trueOrFalseAnswer);
     }
@@ -205,14 +241,11 @@ function nextQuestion() {
 
 mainButton.addEventListener('click', nextQuestion);
 
+function endGame() {
+  console.log('game')
+}
 
 //Card audio player
-const cardContainer = document.querySelector('.card__container'),
-      cardBtnPlay = document.querySelector('.card__btn-play-img'),
-      cardBar = document.querySelector('.card__bar'),
-      cardCurrentTimes = document.querySelector('.card__current-time'),
-      cardDurationTime = document.querySelector('.card__duration-time');
-
 function playAudioCard() {
   cardBtnPlay.classList.add('active');
   audioCard.play();
