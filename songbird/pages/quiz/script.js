@@ -1,41 +1,30 @@
 import birdsDataRu from './birdsRu.js';
 
-function randomInteger(min, max) {
-  let rand = min - 0.5 + Math.random() * (max - min + 1);
-  return Math.round(rand);
-}
-console.log(birdsDataRu[0][0])
-//Start Game
+//Vars
 const audioQuestion = document.getElementById('audioQuestion'),
       audioTrue = document.getElementById('audioTrue'),
       audioFalse = document.getElementById('audioFalse'),
       audioWin = document.getElementById('audioWin'),
       audioCard = document.getElementById('audioCard');
 
-const pageItems = document.querySelectorAll('.page-item'),
+const scoreCounter = document.querySelector('.header__score-counter'),
+      pageItems = document.querySelectorAll('.page-item'),
       progressContainer = document.querySelector('.progress__container'),
       progressBtnPlay = document.querySelector('.progress__btn-play-img'),
       progressBar = document.querySelector('.progress__bar'),
       currentTimes = document.querySelector('.current-time'),
       durationTime = document.querySelector('.duration-time'),
       questionBirdTitle = document.querySelector('.question__bird-title'),
-      unknowBirdImg = document.querySelector('.question__bird-img'),
-      answerItems = document.querySelectorAll('.answer__item_text'),
-      answerItemLeds = document.querySelectorAll('.answer__item_led'),
+      questionBirdImg = document.querySelector('.question__bird-img'),
+      answerItems = document.querySelectorAll('.answer__item'),
       mainButton = document.querySelector('.main__button');
 
-
-function startGame() {
-  questionBirdTitle.textContent = '******'
-  unknowBirdImg.src = 'https://birds-quiz.netlify.app/static/media/bird.06a46938.jpg';
-  let answerIndex = 0;
-  for(let answerItem of answerItems) {
-    answerItem.textContent = birdsDataRu[0][answerIndex].name;
-    answerIndex++
-  }
-
-}
-startGame()
+const descriptionPreview = document.querySelector('.description__preview'),
+      descriptionCard = document.querySelector('.description__card'),
+      cardImg = document.querySelector('.card__img'),
+      cardTitle = document.querySelector('.card__title'),
+      cardLatin = document.querySelector('.card__latin'),
+      cardText = document.querySelector('.card__text');
 
 //volume
 document.querySelector('.volume-input').oninput = audioVolume;
@@ -94,7 +83,7 @@ audioQuestion.onloadedmetadata = function() {
 };
 
 function current(e) {
-	const {currentTime} = e.target;
+  const {currentTime} = e.target;
   const n = currentTime % 60;
     if (n < 10) {
       currentTimes.innerHTML = (`${Math.floor(currentTime / 60)}:0${Math.floor(n)}`);
@@ -104,3 +93,153 @@ function current(e) {
 }
 
 audioQuestion.addEventListener('timeupdate', current);
+
+//Algoritm
+function randomInteger(min, max) {
+  let rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
+}
+
+let questionNumber = 0;
+let randomQuestionArr;
+let score = 0;
+function startGame() {
+  questionBirdTitle.textContent = '******'
+  questionBirdImg.src = 'https://birds-quiz.netlify.app/static/media/bird.06a46938.jpg';
+  let answerIndex = 0;
+  for(let answerItem of answerItems) {
+    answerItem.innerHTML = '<span class="answer__item_led"></span>' + birdsDataRu[questionNumber][answerIndex].name;
+    answerIndex++
+  }
+}
+startGame()
+let scoreCount = 0;
+let count = 5;
+function trueOrFalseAnswer(e) {
+  let trueObj = birdsDataRu[questionNumber][randomQuestionArr]
+  if (e.target.textContent == trueObj.name) {
+    e.target.classList.add('right')
+    audioTrue.play();
+    scoreCount += count
+    scoreCounter.textContent = count;
+    count = 5;
+    for (let answerItem of answerItems) {
+      answerItem.removeEventListener('click', trueOrFalseAnswer);
+    }
+    questionBirdImg.src = trueObj.image;
+    questionBirdTitle.textContent = trueObj.name;
+    //card
+    descriptionPreview.style.display = 'none';
+    descriptionCard.style.display = 'block'
+    cardImg.src = trueObj.image;
+    cardTitle.textContent = trueObj.name;
+    cardLatin.textContent = trueObj.species;
+    cardText.textContent = trueObj.description;
+    mainButton.classList.add('active');
+  } else {
+    e.target.classList.add('wrong');
+    count--;
+    audioFalse.play();
+    audioFalse.playbackRate = 1.3;
+    //card
+    let targetData = birdsDataRu[questionNumber][e.target.id - 1];
+    descriptionPreview.style.display = 'none';
+    descriptionCard.style.display = 'block'
+    cardImg.src = targetData.image;
+    cardTitle.textContent = targetData.name;
+    cardLatin.textContent = targetData.species;
+    cardText.textContent = targetData.description;
+    audioCard.src = targetData.audio;
+  }
+}
+
+for (let answerItem of answerItems) {
+  answerItem.addEventListener('click', trueOrFalseAnswer);
+}
+
+function randomQuestion() {
+  randomQuestionArr = randomInteger(0, 5);
+}
+
+function setQuestion() {
+  audioQuestion.src = birdsDataRu[questionNumber][randomQuestionArr].audio;
+  console.log(birdsDataRu[questionNumber][randomQuestionArr])
+}
+
+randomQuestion()
+setQuestion()
+
+
+
+
+
+
+
+
+//Card audio player
+const cardContainer = document.querySelector('.card__container'),
+      cardBtnPlay = document.querySelector('.card__btn-play-img'),
+      cardBar = document.querySelector('.card__bar'),
+      cardCurrentTimes = document.querySelector('.card__current-time'),
+      cardDurationTime = document.querySelector('.card__duration-time');
+
+function playAudioCard() {
+  cardBtnPlay.classList.add('active');
+  audioCard.play();
+  cardBtnPlay.src = '../../assets/icons/pause.svg';
+}
+
+function pauseAudioCard() {
+  cardBtnPlay.classList.remove('active');
+  audioCard.pause();
+  cardBtnPlay.src = '../../assets/icons/play.svg';
+}
+
+cardBtnPlay.addEventListener("click", function(){
+let isPlaying = cardBtnPlay.classList.contains('active');
+  if (isPlaying) {
+    pauseAudioCard();
+  } else {
+    playAudioCard();
+  }
+});
+
+function percentProgressCard(e) {
+  const {duration, currentTime} = e.target;
+  const progressPercent = (currentTime / duration) * 100;
+  cardBar.style.width = (`${progressPercent}%`);
+}
+
+audioCard.addEventListener('timeupdate', percentProgressCard);
+
+function setProgressCard(e) {
+  const width = this.clientWidth;
+  const clickWith = e.offsetX;
+  const duration = audioQuestion.duration;
+
+  audioQuestion.currentTime = (clickWith / width) * duration;
+}
+
+cardContainer.addEventListener('click', setProgressCard);
+
+audioCard.onloadedmetadata = function() {
+  let timestamp = Math.floor(audioQuestion.duration);
+  cardDurationTime.innerHTML = (`${Math.floor(timestamp / 60)}:${timestamp % 60}`);
+};
+
+function currentCard(e) {
+  const {currentTime} = e.target;
+  const n = currentTime % 60;
+    if (n < 10) {
+      cardCurrentTimes.innerHTML = (`${Math.floor(currentTime / 60)}:0${Math.floor(n)}`);
+    } else {
+      cardCurrentTimes.innerHTML = (`${Math.floor(currentTime / 60)}:${Math.floor(n)}`);
+    }
+}
+
+audioCard.addEventListener('timeupdate', currentCard);
+
+
+
+
+

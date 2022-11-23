@@ -323,11 +323,11 @@ input[type=range]::-webkit-slider-thumb {
   background-color: var(--border-color);
 }
 
-.true .answer__item_led {
+.right .answer__item_led {
   background-color: var(--green-active);
 }
 
-.false .answer__item_led {
+.wrong .answer__item_led {
   background-color: var(--false);
 }
 
@@ -461,6 +461,9 @@ input[type=range]::-webkit-slider-thumb {
   background-color: var(--green);
 }
 
+.main__button.active:hover {
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+}
 /* media */
 
 @media (max-width: 1300px) {
