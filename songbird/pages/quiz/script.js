@@ -7,7 +7,9 @@ const audioQuestion = document.getElementById('audioQuestion'),
       audioWin = document.getElementById('audioWin'),
       audioCard = document.getElementById('audioCard');
 
-const scoreCounter = document.querySelector('.header__score-counter'),
+const main = document.querySelector('.main'),
+      headerScore = document.querySelector('.header__score'),
+      scoreCounter = document.querySelector('.header__score-counter'),
       pageItems = document.querySelectorAll('.page-item'),
       progressContainer = document.querySelector('.progress__container'),
       progressBtnPlay = document.querySelector('.progress__btn-play-img'),
@@ -241,8 +243,30 @@ function nextQuestion() {
 
 mainButton.addEventListener('click', nextQuestion);
 
+//End Game
+const result = document.querySelector('.result'),
+      resultTextSpan = document.querySelector('.result__text-span'),
+      resultMax = document.querySelector('.result__max'),
+      resultBtn = document.querySelector('.result__btn');
+
 function endGame() {
-  console.log('game')
+  main.classList.add('hidden');
+  main.classList.remove('main');
+  result.style.display = 'block';
+  headerScore.style.display = 'none';
+  resultTextSpan.textContent = scoreCount;
+  if (scoreCount === 30) {
+    resultMax.style.display = 'block';
+  }
+}
+
+resultBtn.addEventListener("click", newGame);
+function newGame() {
+  main.classList.remove('hidden');
+  main.classList.add('main');
+  result.style.display = 'none';
+  headerScore.style.display = 'block';
+  scoreCount = 0;
 }
 
 //Card audio player
@@ -302,7 +326,7 @@ function currentCard(e) {
 
 audioCard.addEventListener('timeupdate', currentCard);
 
-
+export {scoreCount}
 
 
 

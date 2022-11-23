@@ -55,7 +55,7 @@
       <h4 class="header__score">Очки: <span class="header__score-counter">0</span></h4>
     </header>
 
-    <main class="main">
+    <main class="main hidden">
       <ul class="pagination">
         <li class="page-item active">Разминка</li>
         <li class="page-item">Воробьиные</li>
@@ -129,6 +129,17 @@
 
       <button class="main__button">Следующий вопрос</button>
     </main>
+
+    <div class="result">
+      <div class="result__container">
+        <h4 class="result__title">Поздравляю!</h4>
+        <p class="result__text">Вы набрали <span class="result__text-span"></span> из возможных 30 баллов<br><br>
+          <span class="result__max">Вы набрали максимальный балл!!!</span>
+        </p>
+        <button class="result__btn">Попробовать еще раз</button>
+      </div>
+    </div>
+
   </div>
 
   <audio src="" id="audioQuestion"></audio>

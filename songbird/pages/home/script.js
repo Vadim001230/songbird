@@ -1,4 +1,3 @@
-alert('Привет! Буду благодарен, если отложите проверку данной работы до вечера!')
 //video change
 const video = document.getElementById('video');
 function randomInteger(min, max) {
