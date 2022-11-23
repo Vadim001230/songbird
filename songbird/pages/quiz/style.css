@@ -459,11 +459,11 @@ input[type=range]::-webkit-slider-thumb {
   transition: 0.2s;
 }
 
-.main__button.active {
+.main__button.active-btn {
   background-color: var(--green);
 }
 
-.main__button.active:hover {
+.main__button.active-btn:hover {
   background-color: var(--green-active);
 }
 

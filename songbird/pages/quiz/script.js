@@ -112,10 +112,14 @@ function startGame() {
   questionBirdTitle.textContent = '******'
   questionBirdImg.src = 'https://birds-quiz.netlify.app/static/media/bird.06a46938.jpg';
   audioQuestion.src = birdsDataRu[questionNumber][randomQuestionArr].audio;
+  descriptionCard.style.display = 'none';
+  descriptionPreview.style.display = 'block';
   let answerIndex = 0;
   for(let answerItem of answerItems) {
     answerItem.innerHTML = '<span class="answer__item_led"></span>' + birdsDataRu[questionNumber][answerIndex].name;
     answerIndex++;
+    answerItem.classList.remove('wrong');
+    answerItem.classList.remove('right');
   }
 }
 startGame()
@@ -128,7 +132,7 @@ function trueOrFalseAnswer(e) {
     audioTrue.play();
     audioQuestion.pause();
     scoreCount += count;
-    scoreCounter.textContent = count;
+    scoreCounter.textContent = scoreCount;
     count = 5;
     for (let answerItem of answerItems) {
       answerItem.removeEventListener('click', trueOrFalseAnswer);
@@ -144,7 +148,7 @@ function trueOrFalseAnswer(e) {
     cardLatin.textContent = trueObj.species;
     cardText.textContent = trueObj.description;
     audioCard.src = trueObj.audio;
-    mainButton.classList.add('active');
+    mainButton.classList.add('active-btn');
   } else {
     if (count <= 0) {
       count = 0
@@ -184,10 +188,22 @@ for (let answerItem of answerItems) {
 
 //Next questions
 
+function nextQuestion() {
+  if (mainButton.classList.contains('active-btn')) {
+    questionNumber++;
+    mainButton.classList.remove('active-btn');
+    randomQuestion();
+    startGame();
+    pauseAudio();
+    progressBar.style.width = '0'
+    pauseAudioCard();
+    for (let answerItem of answerItems) {
+      answerItem.addEventListener('click', trueOrFalseAnswer);
+    }
+  }
+}
 
-
-
-
+mainButton.addEventListener('click', nextQuestion);
 
 
 //Card audio player
