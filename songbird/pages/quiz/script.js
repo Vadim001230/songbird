@@ -102,14 +102,20 @@ function randomInteger(min, max) {
 
 let questionNumber = 0;
 let randomQuestionArr;
-let score = 0;
+
+function randomQuestion() {
+  randomQuestionArr = randomInteger(0, 5);
+}
+randomQuestion()
+
 function startGame() {
   questionBirdTitle.textContent = '******'
   questionBirdImg.src = 'https://birds-quiz.netlify.app/static/media/bird.06a46938.jpg';
+  audioQuestion.src = birdsDataRu[questionNumber][randomQuestionArr].audio;
   let answerIndex = 0;
   for(let answerItem of answerItems) {
     answerItem.innerHTML = '<span class="answer__item_led"></span>' + birdsDataRu[questionNumber][answerIndex].name;
-    answerIndex++
+    answerIndex++;
   }
 }
 startGame()
@@ -120,25 +126,33 @@ function trueOrFalseAnswer(e) {
   if (e.target.textContent == trueObj.name) {
     e.target.classList.add('right')
     audioTrue.play();
-    scoreCount += count
+    audioQuestion.pause();
+    scoreCount += count;
     scoreCounter.textContent = count;
     count = 5;
     for (let answerItem of answerItems) {
       answerItem.removeEventListener('click', trueOrFalseAnswer);
+      answerItem.addEventListener('click', afterTrueInfo);
     }
     questionBirdImg.src = trueObj.image;
     questionBirdTitle.textContent = trueObj.name;
     //card
     descriptionPreview.style.display = 'none';
-    descriptionCard.style.display = 'block'
+    descriptionCard.style.display = 'block';
     cardImg.src = trueObj.image;
     cardTitle.textContent = trueObj.name;
     cardLatin.textContent = trueObj.species;
     cardText.textContent = trueObj.description;
+    audioCard.src = trueObj.audio;
     mainButton.classList.add('active');
   } else {
+    if (count <= 0) {
+      count = 0
+    }
+    if (!(e.target.classList.contains('wrong'))){
+      count--;
+    }
     e.target.classList.add('wrong');
-    count--;
     audioFalse.play();
     audioFalse.playbackRate = 1.3;
     //card
@@ -152,23 +166,23 @@ function trueOrFalseAnswer(e) {
     audioCard.src = targetData.audio;
   }
 }
+function afterTrueInfo(e) {
+  let targetData = birdsDataRu[questionNumber][e.target.id - 1];
+    descriptionPreview.style.display = 'none';
+    descriptionCard.style.display = 'block'
+    cardImg.src = targetData.image;
+    cardTitle.textContent = targetData.name;
+    cardLatin.textContent = targetData.species;
+    cardText.textContent = targetData.description;
+    audioCard.src = targetData.audio;
+}
+
 
 for (let answerItem of answerItems) {
   answerItem.addEventListener('click', trueOrFalseAnswer);
 }
 
-function randomQuestion() {
-  randomQuestionArr = randomInteger(0, 5);
-}
-
-function setQuestion() {
-  audioQuestion.src = birdsDataRu[questionNumber][randomQuestionArr].audio;
-  console.log(birdsDataRu[questionNumber][randomQuestionArr])
-}
-
-randomQuestion()
-setQuestion()
-
+//Next questions
 
 
 
@@ -215,15 +229,15 @@ audioCard.addEventListener('timeupdate', percentProgressCard);
 function setProgressCard(e) {
   const width = this.clientWidth;
   const clickWith = e.offsetX;
-  const duration = audioQuestion.duration;
+  const duration = audioCard.duration;
 
-  audioQuestion.currentTime = (clickWith / width) * duration;
+  audioCard.currentTime = (clickWith / width) * duration;
 }
 
 cardContainer.addEventListener('click', setProgressCard);
 
 audioCard.onloadedmetadata = function() {
-  let timestamp = Math.floor(audioQuestion.duration);
+  let timestamp = Math.floor(audioCard.duration);
   cardDurationTime.innerHTML = (`${Math.floor(timestamp / 60)}:${timestamp % 60}`);
 };
 

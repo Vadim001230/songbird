@@ -173,6 +173,7 @@ body {
   height: 155px;
   border-radius: 10px;
   margin: 0;
+  object-fit: cover;
 }
 
 /*Progress*/
@@ -358,6 +359,7 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 10px;
   margin: 0;
   margin-right: 36px;
+  object-fit: cover;
 }
 
 .card__title {
@@ -462,8 +464,9 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .main__button.active:hover {
-  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+  background-color: var(--green-active);
 }
+
 /* media */
 
 @media (max-width: 1300px) {
