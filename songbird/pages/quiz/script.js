@@ -262,11 +262,13 @@ function endGame() {
 
 resultBtn.addEventListener("click", newGame);
 function newGame() {
+  scoreCount = 0;
+  scoreCounter.textContent = scoreCount;
   main.classList.remove('hidden');
   main.classList.add('main');
   result.style.display = 'none';
   headerScore.style.display = 'block';
-  scoreCount = 0;
+
 }
 
 //Card audio player

@@ -8,14 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&family=Lora&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="style.css">
   <title>Songbirds</title>
 </head>
 <body>
-  <link rel="stylesheet" href="style.css">
-  <video autoplay muted loop id="video"></video>
-  <div class="blackout"></div>
 
+  <div class="blackout"></div>
   <header class="header">
     <div class="container">
       <nav class="nav">
@@ -59,7 +57,7 @@
         <ul class="nav__list">
           <li class="nav__item"><a href="../home/index.html" class="nav__link">Главная</a></li>
           <li class="nav__item"><a href="../quiz/index.html" class="nav__link">Викторина</a></li>
-          <li class="nav__item"><a href="index.html" class="nav__link active">Результаты</a></li>
+          <li class="nav__item"><a href="index.html" class="nav__link active">Галерея</a></li>
         </ul>
         <button type="button" class="burger">
           <span class="burger__item-top"></span>
@@ -70,13 +68,8 @@
     </div>
   </header>
 
-  <main class="score">
-    <div class="score__table">
-      <h2 class="score__title">Количество очков</h2>
-      <ol class="score__list">
-        <li class="score__item"></li>
-      </ol>
-    </div>
+  <main class="galery">
+      <!-- render galery cards js -->
   </main>
 
   <footer class="footer">
@@ -91,7 +84,6 @@
     </div>
   </footer>
 
-  <script src="../home/script.js" type="module"></script>
   <script src="script.js" type="module"></script>
 </body>
 </html>

@@ -211,33 +211,127 @@ body {
 }
 
 /* main */
+.galery {
+  margin: 10px auto;
+}
 
-.score {
-  height: 100%;
+.galery__card {
+  list-style: none;
+  flex: 45%;
+  border: 1px solid #444444;
+  padding: 1rem;
+  border-radius: 5px;
+  margin: 25px;
+}
+
+.galery__cards {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.score__table {
-  width: 500px;
-  height: 90%;
-  border-radius: 30px;
-  background: rgba(34, 34, 34, 0.9);
-  color: #00BC8C;
-  border: 3px solid #00BC8C;
+.card__top {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
-.score__title {
-  text-align: center;
-  margin: 10px 0 20px;
-  font-size: 26px;
+.card__img {
+  width: 200px;
+  height: 155px;
+  border-radius: 10px;
+  margin: 0;
+  margin-right: 36px;
+  object-fit: cover;
 }
 
-.score__item {
+.card__title {
   font-size: 24px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 6px;
+  margin-bottom: 6px;
 }
 
+.card__latin {
+  font-size: 18px;
+  font-weight: 300;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 6px;
+  margin-bottom: 30px;
+}
+
+.card__info {
+  width: 90%;
+}
+
+.card__audio {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.card__audio {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.card__btn-play {
+  position: relative;
+  top: -16px;
+  left: -10px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-right: 10px;
+}
+
+.card__btn-play:hover {
+  filter: brightness(0.8);
+}
+
+.card__container {
+  position: relative;
+  margin: 0 auto;
+  background-color: #737373;
+  border-radius: 5px;
+  height: 7px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.card__bar {
+  width: 0;
+  height: 5px;
+  background-color: var(--green-active);
+  border-radius: 5px;
+}
+
+.card__current-time {
+  font-weight: 300;
+  top: 14px;
+  position: absolute;
+  font-size: 14px;
+}
+
+.card__duration-time {
+  font-weight: 300;
+  position: absolute;
+  top: 14px;
+  right: 0;
+  font-size: 14px;
+}
+
+.card__text {
+  font-size: 17px;
+  margin-top: 25px;
+  text-align: justify;
+}
 /* footer */
 .footer {
   background: rgba(34, 34, 34, 0.9);
@@ -336,20 +430,6 @@ body {
   }
 
   .header__logo-link {
-    font-size: 20px;
-  }
-
-  .score__table {
-    width: 300px;
-    border-radius: 20px;
-    border: 2px solid #00BC8C;
-  }
-
-  .score__title {
-    font-size: 22px;
-  }
-
-  .score__item {
     font-size: 20px;
   }
 
